@@ -41,7 +41,7 @@ void traverse(){
         cout<<p->data<<"->";
         p=p->next;
     }
-    cout<<p->data<<"->NULL"<<endl;   
+    cout<<p->data<<"->HEAD"<<endl;   
 }
 
 void insertAtHead(int x){

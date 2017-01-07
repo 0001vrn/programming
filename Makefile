@@ -1,4 +1,4 @@
-all: SLL DLL CLL hello-c-world
+all: SLL DLL CLL MDLL hello-c-world
 
 %: %.cc
 	g++ -std=c++11 $< -o $@
