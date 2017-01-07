@@ -128,6 +128,18 @@ void deleteAtPos(int pos){
     }
     
 }
+void deleteAtHead(){
+    if(head==NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+    
+    node *tmp=head;
+    head=head->next;
+    delete tmp;
+}
+
 int main(){
         
     insertAtHead(1);
@@ -146,6 +158,8 @@ int main(){
     traverse();
     deleteAtPos(1);
     deleteAtPos(6);
+    traverse();
+    deleteAtHead();
     traverse();
     return 0;
 }
