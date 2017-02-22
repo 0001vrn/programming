@@ -235,6 +235,45 @@ int checkForLoop(){
     return 0;
 }
 
+void sortedInsert(int el){
+    node *tmp;
+    if(head==NULL)
+        head=new node(el);
+    else if(el <= head->data)
+        {
+            tmp=new node(el,head);
+            head=tmp;
+        }
+    else{
+        node *p=head;
+        tmp=new node(el);
+        while(p->next && el > p->next->data)
+        {
+            p=p->next;
+        }
+        tmp->next=p->next;
+        p->next=tmp;
+        
+    }    
+}
+/* Memory efficient solution */
+void sortedInsert2(node **head_ref, node *new_node){
+    
+    if (head_ref == NULL || new_node == NULL) return ;
+    node **cursor = head_ref;
+    while (*cursor && (*cursor)->data < new_node->data)
+        cursor = &((*cursor)->next);
+    new_node->next = *cursor;
+    *cursor = new_node;
+}
+
+node *new_node(int n)
+{
+    node *tmp = new node(n);
+    if (tmp == NULL) return NULL;
+    return tmp;
+}
+
 int main() {
     
 /*    
@@ -270,6 +309,7 @@ int main() {
    head=reverseRecursive(head);
    traverse();
    */
+   /*
    insertAtEnd(1);
    insertAtEnd(2);
    insertAtEnd(3);
@@ -282,6 +322,19 @@ int main() {
    if(checkForLoop())
    cout<<"Yes loop is present\n";
    else cout<<"No\n";
+   */
    
+   sortedInsert(3);
+   sortedInsert(2);
+   sortedInsert(1);
+   traverse();
+   sortedInsert(9);
+   sortedInsert(8);
+   sortedInsert(7);
+   traverse();   
+   sortedInsert2(&head,new_node(0));
+   traverse();
+   sortedInsert2(&head,new_node(5));
+   traverse();
    
 }

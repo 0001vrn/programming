@@ -10,6 +10,7 @@ class node{
 };
 
 void traverse(node *n){
+   
     while(n!=NULL){
         for(int i=0;i<n->v.size();i++)
             printf("%d->",n->v[i]);
