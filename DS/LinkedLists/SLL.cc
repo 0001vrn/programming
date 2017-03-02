@@ -28,6 +28,7 @@ void insertAtHead(int x){
 
 void traverse(){
     node *p=head;
+    
     while(p){
         cout<<p->data<<"->";
         p=p->next;
@@ -273,7 +274,89 @@ node *new_node(int n)
     if (tmp == NULL) return NULL;
     return tmp;
 }
+int getNthNode(node *head,int n){
+    node *itr=head;
+    
+    int count=0;
+    
+    while(itr){
+        if(count==n-1)
+        return itr->data;
+        count++;
+        itr=itr->next;
+    }
+    
+    
+    return -1;
+    
+}
 
+int getMiddle(node *head){
+    node *slow=head;
+    node *fast=head;
+    
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+
+    return slow->data;    
+}
+
+int getNthNodeFromEnd(node *head,int n){
+    node *ref=head;
+    node *main=head;
+    int count=0;
+    if(head){
+        while(count<n)
+        {
+        if(ref==NULL)
+            return -1;
+        ref=ref->next;
+        count++;    
+        }
+    }
+    
+    while(ref){
+        main=main->next;
+        ref=ref->next;
+    }
+    
+    return main->data;
+}
+void removeDuplicates(){
+    node *current=head;
+    
+    node *next_next;
+    
+    if(current==NULL)
+    return;
+    
+    while(current->next){
+        
+        if(current->data==current->next->data)
+        {
+            next_next=current->next->next;
+            delete(current->next);
+            current->next=next_next;
+        }
+        else current=current->next;
+        
+    }
+}
+
+node* reverseKGroup(node *head,int k){
+    int i=0;
+    node *p=head;
+    while(p && i<k)
+        p=p->next,i++;
+    if(i<k)return head;
+    node *t=head->next;
+    head->next=reverseKGroup(p,k);
+    while(--i)
+        p=t->next, t->next=head, head=t, t=p;
+    return head;
+}
 int main() {
     
 /*    
@@ -336,5 +419,20 @@ int main() {
    traverse();
    sortedInsert2(&head,new_node(5));
    traverse();
+   
+   cout<<"\nGet Nth Node : "<<getNthNode(head,2);
+   cout<<"\nMiddle Node : "<<getMiddle(head);
+   cout<<"\nGet Nth Node From End : "<<getNthNodeFromEnd(head,2)<<endl;
+   
+   
+   sortedInsert(3);
+   sortedInsert(7);
+   traverse();
+   removeDuplicates();
+   traverse();
+   
+   head=reverseKGroup(head,3);
+   traverse();
+   
    
 }
