@@ -1,4 +1,5 @@
 #include<iostream>
+#include<climits>
 using namespace std;
 
 class node{
@@ -115,6 +116,52 @@ node *inorderSuccessor(node *root,node *n){
     }
     return succ;
 }
+int KSmallestUsingMorris(node *root,int k){
+    int count=0;
+    
+    node *cur=root;
+    int ksmall = INT_MIN;
+    
+    while(cur!=NULL)
+    {
+        if(cur->left==NULL)
+        {
+            count++;
+            if(count==k)
+                ksmall=cur->key;
+                
+            cur=cur->right;
+        }
+        else
+        {
+            node *pre=cur->left;
+            while(pre->right!=NULL && pre->right!=cur)
+                pre=pre->right;
+            
+            if(pre->right==NULL)
+            {
+                pre->right=cur;
+                cur=cur->left;
+            }
+            else
+            {
+                pre->right=NULL;
+                count++;
+                
+                if (count==k)
+                    ksmall = cur->key;
+ 
+                cur = cur->right;
+                
+            }
+            
+            
+        }
+    }
+    
+    return ksmall;
+    
+}
 
 int main(){
     
@@ -141,6 +188,8 @@ int main(){
     isBST(root)?cout<<"Yes":cout<<"No";
     node *tmp=root->right;
     cout<<"\nInorder Successor of "<<tmp->key<<" : "<<inorderSuccessor(root,tmp)->key;
+    //Time Complexity: O(h) where h is height of tree
+    cout<<"\nK the Smallest element : "<<KSmallestUsingMorris(root,3);
     
     
     
