@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-#define MAX_SIZE 50
+
 
 template <class t>
 class node{
@@ -55,19 +55,23 @@ class stack{
 class stackUsingArray
 {
   public:
-    int arr[MAX_SIZE];
+    int *arr;
     int top;
-    stackUsingArray(){
+    int size;
+    stackUsingArray(int cap){
+        size=cap;
+        arr=new int[cap];
         top=-1;
     }
     
     void push(int x){
-        if(top==MAX_SIZE-1)
-        return;
-        else {
+        if(top==size-1)
+            return;
+        else 
           arr[++top]=x;  
-        }
+        
     }
+    
     int pop(){
         if(top==-1)
         return -1;
@@ -77,6 +81,9 @@ class stackUsingArray
             return el;
         }
         
+    }
+    int getSize(){
+        return size;
     }
     
     bool isEmpty(){
@@ -106,12 +113,12 @@ int main(){
     cout<<s2.pop()<<endl;
     
     cout<<s.isEmpty()<<endl;
-    stackUsingArray s1;
+    stackUsingArray s1(3);
     
     s1.push(1);
     s1.push(2);
-    s1.push(3);
-    
+    s1.push(33);
+    cout<<s1.getSize()<<endl;
     cout<<s1.pop()<<endl;
     // cout<<s1.pop()<<endl;
     // cout<<s1.pop()<<endl;
