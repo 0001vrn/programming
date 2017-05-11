@@ -1,4 +1,5 @@
 #include<iostream>
+#include<climits>
 using namespace std;
 
 class node{
@@ -24,6 +25,18 @@ node* insert(node *root,int el){
         root->right = insert(root->right,el);
     
     return root;
+}
+
+node* search(node *root,int el){
+    
+    if(root==NULL || root->key==el)
+        return root;
+    
+    if(el < root->key)
+        return search(root->left,el);
+    else if(el > root->key)
+        return search(root->right,el);
+    
 }
 
 void preOrder(node *root){
