@@ -6,8 +6,21 @@ using namespace std;
 // Prototype of a utility function to swap two integers
 void swap(int *x, int *y);
  
+class Heap{
+ 
+    public:
+    int parent(int i) { return (i-1)/2; }
+ 
+    // to get index of left child of node at index i
+    int left(int i) { return (2*i + 1); }
+ 
+    // to get index of right child of node at index i
+    int right(int i) { return (2*i + 2); }
+    
+};
+ 
 // A class for Max Heap
-class MaxHeap
+class MaxHeap : public Heap
 {
     int *harr; // pointer to array of elements in heap
     int capacity; // maximum possible size of min heap
@@ -18,14 +31,6 @@ public:
  
     // to heapify a subtree with root at given index
     void MaxHeapify(int );
- 
-    int parent(int i) { return (i-1)/2; }
- 
-    // to get index of left child of node at index i
-    int left(int i) { return (2*i + 1); }
- 
-    // to get index of right child of node at index i
-    int right(int i) { return (2*i + 2); }
  
     // to extract the root which is the maximum element
     int extractMax();
@@ -53,7 +58,7 @@ void MaxHeap::resize(){
     
     for(int i=0;i<heap_size;i++)
         harr[i]=arr_old[i];
-    
+    capacity*=2;
     delete arr_old;
 }
  
@@ -78,7 +83,7 @@ void MaxHeap::insertKey(int k)
     int i = heap_size - 1;
     harr[i] = k;
  
-    // Fix the min heap property if it is violated
+    // Fix the max heap property if it is violated
     while (i != 0 && harr[parent(i)] < harr[i])
     {
        swap(&harr[i], &harr[parent(i)]);
@@ -86,7 +91,7 @@ void MaxHeap::insertKey(int k)
     }
 }
  
-// Decreases value of key at index 'i' to new_val.  It is assumed that
+// Increases value of key at index 'i' to new_val.  It is assumed that
 // new_val is smaller than harr[i].
 void MaxHeap::increaseKey(int i, int new_val)
 {
@@ -98,7 +103,7 @@ void MaxHeap::increaseKey(int i, int new_val)
     }
 }
  
-// Method to remove minimum element (or root) from min heap
+// Method to remove maximum element (or root) from max heap
 int MaxHeap::extractMax()
 {
     if (heap_size <= 0)
@@ -158,7 +163,7 @@ void swap(int *x, int *y)
  
  
 // A class for Min Heap
-class MinHeap
+class MinHeap : public Heap
 {
     int *harr; // pointer to array of elements in heap
     int capacity; // maximum possible size of min heap
@@ -169,14 +174,6 @@ public:
  
     // to heapify a subtree with root at given index
     void MinHeapify(int );
- 
-    int parent(int i) { return (i-1)/2; }
- 
-    // to get index of left child of node at index i
-    int left(int i) { return (2*i + 1); }
- 
-    // to get index of right child of node at index i
-    int right(int i) { return (2*i + 2); }
  
     // to extract the root which is the minimum element
     int extractMin();
@@ -202,6 +199,8 @@ public:
      
      for(int i=0;i<heap_size;i++)
         harr[i]=arr_old[i];
+        
+    capacity*=2;    
     delete arr_old;
  }
 // Constructor: Builds a heap from a given array a[] of given size
@@ -292,6 +291,70 @@ void MinHeap::MinHeapify(int i)
     }
 }
 
+// To heapify a subtree rooted with node i which is
+// an index in arr[]. n is size of heap
+void heapify(int arr[], int n, int i)
+{
+    int largest = i;  // Initialize largest as root
+    int l = 2*i + 1;  // left = 2*i + 1
+    int r = 2*i + 2;  // right = 2*i + 2
+ 
+    // If left child is larger than root
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+ 
+    // If right child is larger than largest so far
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+ 
+    // If largest is not root
+    if (largest != i)
+    {
+        swap(arr[i], arr[largest]);
+ 
+        // Recursively heapify the affected sub-tree
+        heapify(arr, n, largest);
+    }
+}
+
+void buildHeap(int arr[],int n){
+    for(int i=n/2-1;i>=0;i--)
+        heapify(arr,n,i);
+}
+
+void heapSort(int arr[],int n){
+    
+    buildHeap(arr,n);
+    
+    // One by one extract an element from heap
+    for (int i=n-1; i>=0; i--)
+    {
+        // Move current root to end
+        swap(arr[0], arr[i]);
+ 
+        // call max heapify on the reduced heap
+        heapify(arr, i, 0);
+    }
+    
+}
+/* A utility function to print array of size n */
+void printArray(int arr[], int n)
+{
+    for (int i=0; i<n; ++i)
+        cout << arr[i] << " ";
+    cout << "\n";
+}
+
+int KthLargest(int arr[],int n,int k){
+    MaxHeap h(n);
+    for(int i=0;i<n;i++)
+        h.insertKey(arr[i]);
+    int el=0;
+    while(k--)
+        el=h.extractMax();
+        
+    return el;
+}
 // Driver program to test above functions
 int main()
 {
@@ -321,5 +384,18 @@ int main()
     cout << h2.getMin() << " ";
     h2.decreaseKey(2, 1);
     cout << h2.getMin();
+    
+    
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    heapSort(arr, n);
+ 
+    cout << "\nSorted array is \n";
+    printArray(arr, n);
+    
+    int k=3;
+    cout<< "\nKth Largest is : "<<KthLargest(arr,n,k);
+    
     return 0;
 }
