@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+#define pb push_back
+#define all(cont) cont.begin(), cont.end()
+typedef unsigned long long int ulli;
 bool prime(int n){
     
     for(int i=2;i<n;i++)
@@ -22,7 +24,7 @@ bool isPrime(int n){
     
     return true;
 }
-vector<bool> sieve(int n){
+vector<ulli> sieve(int n){
    
     vector<bool> prime(n+1,true);
     prime[0]=false;
@@ -38,8 +40,29 @@ vector<bool> sieve(int n){
                 prime[i] = false;
         }
     }
+    vector<ulli> ans;
+    for(int i=0;i<n;i++)
+        if(prime[i])
+            ans.pb(i);
+    return ans;
+}
+bool isZero (ulli i) 
+{
+    return i == 0;
+}
 
-    return prime;
+vector<ulli> sieveRange(int start,int end){
+    
+    vector<ulli> s1 = sieve(start);
+    vector<ulli> s2 = sieve(end);
+    
+    vector<ulli> ans(end-start);
+    
+    set_difference(all(s2),all(s1),ans.begin());
+    vector<ulli>::iterator itr = remove_if(all(ans),isZero);
+    ans.resize(itr-ans.begin());
+    
+    return ans;
 }
 int gcdIterative(int a,int b){
     for (int i=min(a,b); i>=1; i--)
@@ -52,18 +75,24 @@ int gcd(int a,int b){
     return gcd(b,a%b);
 }
 int lcm(int a,int b){
-    return a*b/gcd(a,b);
+    return (a*b)/gcd(a,b);
 }
 int main(void){
     
     cout<<prime(5)<<'\n';
     cout<<isPrime(5)<<'\n';
     int n=100;
-    vector<bool> ans=sieve(n);
-    for(int i=0;i<n;i++)
-        if(ans[i])
-            cout<<i<<' ';
-
+    vector<ulli> ans=sieve(n);
+    for(auto i:ans)
+        cout<<i<<' ';
+    cout<<'\n';
+    
+    int start=50;
+    int end=100;
+    ans.clear();
+    ans=sieveRange(start,end);
+    for(auto i:ans)
+        cout<<i<<' ';
     cout<<'\n';
     
     int a=10;
