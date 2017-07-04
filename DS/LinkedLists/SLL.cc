@@ -14,9 +14,50 @@ class node {
       data=v;
       next=n;
   }
-}*head;
+};
 
-void insertAtHead(int x){
+class list
+{
+    public:
+    node *head;
+    list(){
+        head=NULL;
+    }
+    void insertAtEnd(int x);
+    void insertAtHead(int x);
+    void insertAtPos(int x,int pos);
+    
+    void deleteAtEnd();
+    void deleteAtHead();
+    void deleteAtPos(int pos);
+    
+    void traverse();
+    
+    void deleteList();
+    int lengthOfList();
+    
+    //problems
+    void sortList();
+    void sortedInsert(int el);
+    void sortedInsert2(node **, node *);
+    void reverseIterative();
+    node* reverseKGroup(node *,int);
+    node* reverseRecursive(node *);
+    
+    node* nthNodeFromEnd(int n);
+    void loopIntroduce();
+    void removeDuplicates();
+    node* new_node(int);
+    int checkForLoop();
+    int getNthNode(node *,int);
+    int getMiddle(node*);
+    int getNthNodeFromEnd(node*,int);
+    
+    
+    
+};
+
+void list::insertAtHead(int x){
     node *tmp;
     if(head==NULL)
     head = new node(x);
@@ -26,7 +67,7 @@ void insertAtHead(int x){
     } 
 }
 
-void traverse(){
+void list::traverse(){
     node *p=head;
     
     while(p){
@@ -36,7 +77,7 @@ void traverse(){
     cout<<"NULL"<<endl;
 }
 
-void insertAtEnd(int x){
+void list::insertAtEnd(int x){
     node *tmp;
     if(head==NULL)
     head=new node(x);
@@ -54,7 +95,7 @@ void insertAtEnd(int x){
         p->next=tmp;
     }
 }
-int lengthOfList(){
+int list::lengthOfList(){
     node *p=head;
     int len=0;
     while(p){
@@ -65,7 +106,7 @@ int lengthOfList(){
     return len;
 }
 
-void insertAtPos(int x,int pos){
+void list::insertAtPos(int x,int pos){
     node *tmp;
     int k=1;
     tmp = new node(x);
@@ -88,7 +129,7 @@ void insertAtPos(int x,int pos){
     }
     
 }
-void deleteAtHead(){
+void list::deleteAtHead(){
     if(head==NULL)
     cout<<"List is empty\n";
     else 
@@ -101,7 +142,7 @@ void deleteAtHead(){
     
 }
 
-void deleteAtEnd(){
+void list::deleteAtEnd(){
     if(head==NULL)
     cout<<"List is empty\n";
     else if(head->next==NULL)
@@ -123,7 +164,7 @@ void deleteAtEnd(){
     }
 }
 
-void deleteAtPos(int pos){
+void list::deleteAtPos(int pos){
     int k=1;
     node *tmp;
     if(pos==1){
@@ -153,7 +194,7 @@ void deleteAtPos(int pos){
         
     }
 }
-void deleteList(){
+void list::deleteList(){
     node *itr=head;
     node *aux;
     while(itr){
@@ -167,7 +208,7 @@ void deleteList(){
 
 
 //problems
-void reverseIterative()
+void list::reverseIterative()
 {
     
     node *p=head;
@@ -183,7 +224,7 @@ void reverseIterative()
     head=r;
 }
 
-node* reverseRecursive(node *head){
+node* list::reverseRecursive(node *head){
     if(head==0 || head->next==0)
     return head;
     
@@ -195,7 +236,7 @@ node* reverseRecursive(node *head){
     
 }
 
-node* nthNodeFromEnd(int n){
+node* list::nthNodeFromEnd(int n){
     node *pnthNode=0;
     node *ptemp=head;
     for(int i=1;i<n;i++)
@@ -214,14 +255,14 @@ node* nthNodeFromEnd(int n){
 }
 
 
-void loopIntroduce(){
+void list::loopIntroduce(){
     node *p=head;
     while(p->next)
         p=p->next;
     p->next=head;
 }
 
-int checkForLoop(){
+int list::checkForLoop(){
     node *slow=head;
     node *fast=head;
     
@@ -236,7 +277,7 @@ int checkForLoop(){
     return 0;
 }
 
-void sortedInsert(int el){
+void list::sortedInsert(int el){
     node *tmp;
     if(head==NULL)
         head=new node(el);
@@ -258,7 +299,7 @@ void sortedInsert(int el){
     }    
 }
 /* Memory efficient solution */
-void sortedInsert2(node **head_ref, node *new_node){
+void list::sortedInsert2(node **head_ref, node *new_node){
     
     if (head_ref == NULL || new_node == NULL) return ;
     node **cursor = head_ref;
@@ -268,13 +309,13 @@ void sortedInsert2(node **head_ref, node *new_node){
     *cursor = new_node;
 }
 
-node *new_node(int n)
+node* list::new_node(int n)
 {
     node *tmp = new node(n);
     if (tmp == NULL) return NULL;
     return tmp;
 }
-int getNthNode(node *head,int n){
+int list::getNthNode(node *head,int n){
     node *itr=head;
     
     int count=0;
@@ -291,7 +332,7 @@ int getNthNode(node *head,int n){
     
 }
 
-int getMiddle(node *head){
+int list::getMiddle(node *head){
     node *slow=head;
     node *fast=head;
     
@@ -303,7 +344,7 @@ int getMiddle(node *head){
     return slow->data;    
 }
 
-int getNthNodeFromEnd(node *head,int n){
+int list::getNthNodeFromEnd(node *head,int n){
     node *ref=head;
     node *main=head;
     int count=0;
@@ -324,7 +365,7 @@ int getNthNodeFromEnd(node *head,int n){
     
     return main->data;
 }
-void removeDuplicates(){
+void list::removeDuplicates(){
     node *current=head;
     
     node *next_next;
@@ -345,7 +386,7 @@ void removeDuplicates(){
     }
 }
 
-node* reverseKGroup(node *head,int k){
+node* list::reverseKGroup(node *head,int k){
     int i=0;
     node *p=head;
     while(p && i<k)
@@ -357,6 +398,39 @@ node* reverseKGroup(node *head,int k){
         p=t->next, t->next=head, head=t, t=p;
     return head;
 }
+
+
+
+/*
+Given a linked list of 0s, 1s and 2s, sort it.
+*/
+void list::sortList()
+{
+    int count[3]={0};
+    
+    node *ptr=head;
+    
+    while(ptr){
+        count[ptr->data]++;
+        ptr=ptr->next;
+    }
+    
+    int i=0;
+    ptr=head;
+    while(ptr)
+    {
+        if(count[i]==0)
+            ++i;
+        else
+        {
+            ptr->data = i;
+            --count[i];
+            ptr = ptr->next;   
+        }
+    }
+    
+}
+
 int main() {
     
 /*    
@@ -406,7 +480,7 @@ int main() {
    cout<<"Yes loop is present\n";
    else cout<<"No\n";
    */
-   
+   /*
    sortedInsert(3);
    sortedInsert(2);
    sortedInsert(1);
@@ -434,5 +508,17 @@ int main() {
    head=reverseKGroup(head,3);
    traverse();
    
+   */
+   
+   list l1;
+   for(int i=0;i<5;i++)
+   l1.insertAtEnd(i%3);
+   l1.traverse();
+   
+   //l1.sortList();
+   
+   //l1.traverse();
+   l1.head = l1.reverseKGroup(l1.head,6);
+   l1.traverse();
    
 }
