@@ -511,14 +511,16 @@ int main() {
    */
    
    list l1;
-   for(int i=0;i<5;i++)
+   for(int i=0;i<10;i++)
    l1.insertAtEnd(i%3);
    l1.traverse();
    
    //l1.sortList();
    
    //l1.traverse();
-   l1.head = l1.reverseKGroup(l1.head,6);
+   l1.head = l1.reverseKGroup(l1.head,2);
+   l1.traverse();
+   l1.sortList();
    l1.traverse();
    
 }
