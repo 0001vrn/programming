@@ -77,7 +77,7 @@ public class ArraysAndStrings{
         return true;
     }
     
-    //Time Complexity - O(n)
+    //Time Complexity - O(n^2)
     //Space Complexity - No extra space
     //where n is the length of string
     
