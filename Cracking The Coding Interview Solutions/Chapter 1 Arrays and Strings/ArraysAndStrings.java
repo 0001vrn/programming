@@ -106,7 +106,7 @@ public class ArraysAndStrings{
     
     //endregion
     
-    //region Answer to 1.2
+    //region Answer to 1.3
     
     public static void removeDuplicates(char[] str){
         if(str==null) return;
