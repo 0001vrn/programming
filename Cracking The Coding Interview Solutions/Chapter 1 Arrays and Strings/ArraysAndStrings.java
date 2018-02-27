@@ -129,7 +129,7 @@ public class ArraysAndStrings{
             }
         }
         
-        str[tail] = 0;
+        str[tail]=0;
     }
     //Time Complexity - O(n^2)
     //Space Complexity - O(1)
@@ -145,11 +145,15 @@ public class ArraysAndStrings{
     
     */
     
-    
-    public static void removeDuplicatesEff(char[] str) {
-        if (str == null) return;
+    /*
+        Method 2 (Use Hashing)
+        
+        hint: use LinkedHashSet to make your life easier :)
+    */
+    public static String removeDuplicatesEff(char[] str) {
+        if (str == null) return "";
         int len = str.length;
-        if (len < 2) return;
+        if (len < 2) return new String(str);
         boolean[] hit = new boolean[256];
         for (int i = 0; i < 256; ++i) {
             hit[i] = false;
@@ -163,7 +167,7 @@ public class ArraysAndStrings{
                 hit[str[i]] = true;
             }
         }
-        str[tail] = 0;
+        return (new String(str)).substring(0,tail);
     }
     //Time Complexity - O(n)
     //Space Complexity - Constant
@@ -199,10 +203,10 @@ public class ArraysAndStrings{
         
         //String[] strTbl = {"abcd", "aaaa", "", "aaabbb", "abababa"};
         
-        char[] str= "aabcd".toCharArray();
+        char[] str= "aababbceecd".toCharArray();
         System.out.println(str);
-        removeDuplicatesEff(str);
-        System.out.println(str);
+        
+        System.out.println(removeDuplicatesEff(str));
         
         
     }
