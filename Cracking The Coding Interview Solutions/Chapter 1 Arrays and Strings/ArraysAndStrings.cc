@@ -3,6 +3,8 @@
 
 1.3 (Continued)
     Remove all duplicates from a given string
+    
+1.4 Write a method to decide if two strings are anagrams or not.
 
 by    : Varun Thakur
 Dated : 25-02-2018
@@ -52,6 +54,11 @@ char *removeDupsUsingHashing(char *str);
 /*
     Time Complexity: O(n)
 */
+
+bool anagram(string s, string t);
+/*
+    Time Complexity : O(nlogn)
+*/
 int main(void){
 
     char str[] = "ccbbadd";
@@ -59,10 +66,20 @@ int main(void){
     reverse(str);
     printf("%s\n",str);
     printf("%s\n",removeDupsUsingHashing(str));
+    cout<< anagram("abcd", "dcba") <<'\n';
+
+    cout<< anagram("abcd", "dcdba") <<'\n';
    
    return 0;
 }
 
+bool anagram(string s, string t){
+    
+    sort(s.begin(), s.end());
+    sort(t.begin(),t.end());
+    
+    return (s==t);
+}
 
 char *removeDupsUsingHashing(char *str){
     bool bin_hash[256]={0};

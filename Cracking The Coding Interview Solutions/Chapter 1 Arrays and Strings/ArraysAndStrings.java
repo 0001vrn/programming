@@ -8,6 +8,8 @@
     An extra copy of the array is not.
     FOLLOW UP
     Write the test cases for this method.
+    
+1.4 Write a method to decide if two strings are anagrams or not.
 
 by    : Varun Thakur
 dated : 23-02-2018
@@ -108,11 +110,10 @@ public class ArraysAndStrings{
     
     //region Answer to 1.3
     
-    public static void removeDuplicates(char[] str){
-        if(str==null) return;
+    public static String removeDuplicates(char[] str){
+        if (str == null) return "";
         int len = str.length;
-        if(len<2)
-            return;
+        if (len < 2) return new String(str);
             
         int tail = 1;
         for(int i=1;i<len;i++){
@@ -129,7 +130,7 @@ public class ArraysAndStrings{
             }
         }
         
-        str[tail]=0;
+        return (new String(str)).substring(0,tail);
     }
     //Time Complexity - O(n^2)
     //Space Complexity - O(1)
@@ -185,6 +186,19 @@ public class ArraysAndStrings{
     */
     
     //endregion
+    
+    public static boolean anagrams(String s, String t){
+        
+        char[] sArr = s.toCharArray();
+        char[] tArr = t.toCharArray();
+        
+        Arrays.sort(sArr);
+        Arrays.sort(tArr);
+        
+        return (new String(sArr).equals(new String(tArr)));
+    }
+    
+    
     public static void main(String[] args){
         
         //region sample testcases for 1.1
@@ -205,8 +219,14 @@ public class ArraysAndStrings{
         
         char[] str= "aababbceecd".toCharArray();
         System.out.println(str);
-        
+        System.out.println(removeDuplicates(str));
+
         System.out.println(removeDuplicatesEff(str));
+        
+        System.out.println(anagrams("abcd","dbca"));
+        System.out.println(anagrams("abcd","dbaca"));
+        
+        
         
         
     }
