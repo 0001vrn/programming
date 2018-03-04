@@ -6,6 +6,8 @@
     
 1.4 Write a method to decide if two strings are anagrams or not.
 
+1.5 Write a method to replace all spaces in a string with ‘%20’.
+
 by    : Varun Thakur
 Dated : 25-02-2018
 */
@@ -55,9 +57,23 @@ char *removeDupsUsingHashing(char *str);
     Time Complexity: O(n)
 */
 
+// Solution #1: Sort the strings
+
 bool anagram(string s, string t);
 /*
     Time Complexity : O(nlogn)
+*/
+
+// Solution #2: Check if the two strings have identical counts for each unique char.
+
+bool anagramUsingCounts(string s, string t);
+/*
+    Time Complexity : O(n)
+*/
+
+string ReplaceFun(string s);
+/*
+    Time Complexity: O(n)
 */
 int main(void){
 
@@ -66,11 +82,72 @@ int main(void){
     reverse(str);
     printf("%s\n",str);
     printf("%s\n",removeDupsUsingHashing(str));
+    
+    
     cout<< anagram("abcd", "dcba") <<'\n';
-
     cout<< anagram("abcd", "dcdba") <<'\n';
-   
-   return 0;
+
+    cout<< anagramUsingCounts("abcd", "dcba") <<'\n';  
+    cout<< anagramUsingCounts("abcd", "dcdba") <<'\n';
+    
+    cout << ReplaceFun("Hello, My name is Varun") << '\n';
+    return 0;
+}
+string ReplaceFun(string str){
+    int len=str.length();
+    int i,spaceCount=0;
+    int newLen;
+    
+    for(i=0;i<len;i++)
+        if(str[i]==' ')
+            spaceCount++;
+    
+    newLen = len + 2 * spaceCount;
+    char *ans = new char[newLen+1];
+    ans[newLen]='\0';
+    
+    for(i=len-1;i>=0;i--){
+        if(str[i] == ' '){
+            ans[newLen-1]='0';
+            ans[newLen-2]='2';
+            ans[newLen-3]='%';
+            newLen = newLen-3;
+        }
+        else {
+            ans[newLen - 1] = str[i];
+            newLen--;
+        }
+    }
+    
+    string res = ans;
+    return res;
+}
+bool anagramUsingCounts(string s, string t){
+    
+    if(s.length() != t.length()) return false;
+    
+    int letters[256]={0};
+    int num_unique_chars=0;
+    int num_completed_t=0;
+    
+    for(char c: s){
+        if(letters[c]==0) ++num_unique_chars;
+        ++letters[c];
+    }    
+    
+    for(int i=0;i<t.length();i++){
+        int c = (int)t[i];
+        if(letters[c]==0)
+            return false;
+        --letters[c];
+        if(letters[c]==0){
+            ++num_completed_t;
+            if(num_completed_t == num_unique_chars)
+                return i == t.length()-1;
+        }
+    }
+    
+    return false;
 }
 
 bool anagram(string s, string t){

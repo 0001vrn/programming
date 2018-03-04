@@ -11,6 +11,8 @@
     
 1.4 Write a method to decide if two strings are anagrams or not.
 
+1.5 Write a method to replace all spaces in a string with ‘%20’.
+
 by    : Varun Thakur
 dated : 23-02-2018
 */
@@ -187,7 +189,9 @@ public class ArraysAndStrings{
     
     //endregion
     
-    public static boolean anagrams(String s, String t){
+    //Solution #1: Sort the strings
+
+    public static boolean anagram(String s, String t){
         
         char[] sArr = s.toCharArray();
         char[] tArr = t.toCharArray();
@@ -198,6 +202,76 @@ public class ArraysAndStrings{
         return (new String(sArr).equals(new String(tArr)));
     }
     
+    //Time Complexity : O(nlogn)
+    
+    //Solution #2: Check if the two strings have identical counts for each unique char.
+    public static boolean anagramUsingCounts(String s, String t){
+        
+        if(s.length() != t.length()) return false;
+        
+        int[] letters = new int[256];
+        int num_unique_chars = 0;
+        int num_completed_t = 0;
+        char[] s_array = s.toCharArray();
+        
+        for(char c : s_array){
+            if(letters[c]==0) ++num_unique_chars;
+            ++letters[c];
+        }
+        
+        for(int i=0;i<t.length();i++){
+            int c = (int) t.charAt(i);
+            if(letters[c]==0) return false; // Found more of char c in t than in s.
+            --letters[c];
+            if(letters[c]==0){
+                ++num_completed_t;
+                if(num_completed_t == num_unique_chars){
+                    // it’s a match if t has been processed completely
+                    return i == t.length() - 1;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    //Time Complexity : O(n)
+    //Space Complexity : Constant
+    
+    
+    
+    public static String ReplaceFun(String s){
+        char[] str = s.toCharArray();
+        
+        int len = str.length;
+        int i,spaceCount=0;
+        int newLen;
+        
+        for(i=0;i<len;i++)
+            if(str[i]==' ')
+                spaceCount++;
+        
+        newLen = len + 2 * spaceCount;
+        char[] ans = new char[newLen+1];
+        ans[newLen]='\0';
+        
+        for(i=len-1;i>=0;i--){
+            if(str[i] == ' '){
+                ans[newLen-1]='0';
+                ans[newLen-2]='2';
+                ans[newLen-3]='%';
+                newLen = newLen-3;
+            }
+            else {
+                ans[newLen - 1] = str[i];
+                newLen--;
+            }
+        }
+        return new String(ans);
+    }
+    
+    
+     
     
     public static void main(String[] args){
         
@@ -223,11 +297,13 @@ public class ArraysAndStrings{
 
         System.out.println(removeDuplicatesEff(str));
         
-        System.out.println(anagrams("abcd","dbca"));
-        System.out.println(anagrams("abcd","dbaca"));
+        System.out.println(anagram("abcd","dbca"));
+        System.out.println(anagram("abcd","dbaca"));
         
+        System.out.println(anagramUsingCounts("abcd","dbca"));
+        System.out.println(anagramUsingCounts("abcd","dbaca"));
         
-        
+        System.out.println(ReplaceFun("Hello, My name is Varun"));
         
     }
 }
