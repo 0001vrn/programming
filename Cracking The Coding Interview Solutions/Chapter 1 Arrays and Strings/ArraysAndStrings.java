@@ -13,6 +13,9 @@
 
 1.5 Write a method to replace all spaces in a string with ‘%20’.
 
+1.6 Given an image represented by an NxN matrix, where each pixel in the image is 4
+    bytes, write a method to rotate the image by 90 degrees. Can you do this in place?
+
 by    : Varun Thakur
 dated : 23-02-2018
 */
@@ -20,6 +23,7 @@ import java.util.Arrays;
 
 
 public class ArraysAndStrings{
+    
     //region Answer to 1.1
     
     //approach 1 - use extra space
@@ -189,6 +193,8 @@ public class ArraysAndStrings{
     
     //endregion
     
+    //region Answer to 1.4
+    
     //Solution #1: Sort the strings
 
     public static boolean anagram(String s, String t){
@@ -238,7 +244,9 @@ public class ArraysAndStrings{
     //Time Complexity : O(n)
     //Space Complexity : Constant
     
+    //endregion
     
+    //region Answer to 1.5
     
     public static String ReplaceFun(String s){
         char[] str = s.toCharArray();
@@ -270,7 +278,38 @@ public class ArraysAndStrings{
         return new String(ans);
     }
     
+    //endregion
     
+    //region Answer to 1.6
+    
+    public static void  rotate(int[][] matrix, int n){
+        for(int layer = 0; layer < n/2; ++layer){
+            int first = layer;
+            int last = n - 1 - layer;
+            for(int i=first;i<last;++i){
+                int offset = i - first;
+                int top = matrix[first][i]; //save top
+                // left -> top
+                matrix[first][i] = matrix[last-offset][first];
+                // bottom -> left
+                matrix[last-offset][first] = matrix[last][last - offset]; 
+                // right -> bottom
+                matrix[last][last - offset] = matrix[i][last];
+                // top -> right
+                matrix[i][last] = top; // right <- saved top
+            }
+        }
+    }
+    
+    public static void printMatrix(int[][] matrix, int n){
+        for(int[] i:matrix){
+            for(int j: i)
+                System.out.print(j);
+            System.out.println();
+        }
+    }
+    
+    //endregion
      
     
     public static void main(String[] args){
@@ -289,6 +328,8 @@ public class ArraysAndStrings{
         System.out.println(isUniqueCharsSorting("BACCD"));
         //endregion
         
+        //region sample testcases for 1.3
+        
         //String[] strTbl = {"abcd", "aaaa", "", "aaabbb", "abababa"};
         
         char[] str= "aababbceecd".toCharArray();
@@ -297,13 +338,40 @@ public class ArraysAndStrings{
 
         System.out.println(removeDuplicatesEff(str));
         
+        //endregion
+        
+        //region sample testcases for 1.4
         System.out.println(anagram("abcd","dbca"));
         System.out.println(anagram("abcd","dbaca"));
         
         System.out.println(anagramUsingCounts("abcd","dbca"));
         System.out.println(anagramUsingCounts("abcd","dbaca"));
+        //endregion
         
+        //region sample testcases for 1.5
+        System.out.println(ReplaceFun(" "));
         System.out.println(ReplaceFun("Hello, My name is Varun"));
+        System.out.println(ReplaceFun("                        "));
+        //endregion
+        
+        //region sample testcases for 1.6
+        int mat1[][] = { {1,2},
+                         {3,4}};
+        int n1 = mat1.length;
+        
+        printMatrix(mat1,n1);
+        rotate(mat1,n1);
+        printMatrix(mat1,n1);
+        
+        int mat[][] = { {1,2,3}, 
+                        {4,5,6},
+                        {7,8,9}};
+        
+        int n = mat.length;
+        printMatrix(mat,n);
+        rotate(mat,n);
+        printMatrix(mat,n);
+        //endregion
         
     }
 }
