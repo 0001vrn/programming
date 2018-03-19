@@ -31,19 +31,43 @@ class LinkedList{
         }
         System.out.println("NULL");
     }
-    public static void deleteDups(Node n) {
+    public static void deleteDups(Node head) {
         Hashtable table = new Hashtable();
         Node previous = null;
-        while (n != null) {
-            if (table.containsKey(n.data)) 
-                previous.next = n.next;
+        while (head != null) {
+            if (table.containsKey(head.data)) 
+                previous.next = head.next;
             else {
-                table.put(n.data, true);
-                previous = n;
+                table.put(head.data, true);
+                previous = head;
             }
-            n = n.next;
+        head = head.next;
+        }
+    }
+    
+    public static void deleteDups2(Node head){
+        if(head == null)
+            return;
+        Node previous = head;
+        Node current = previous.next;
+        while(current!=null){
+            Node runner = head;
+            while(runner!=current){
+                if(runner.data == current.data){
+                    Node tmp = current.next;
+                    previous.next = tmp;
+                    current = tmp;
+                    break;
+                }
+                runner = runner.next;
+            }
+            
+            if (runner == current) { // current not updated - update now
+                previous = current;
+                current = current.next;
             }
         }
+    }
     public static void main(String[] args){
         /* Start with the empty list. */
         LinkedList llist = new LinkedList();
@@ -57,7 +81,7 @@ class LinkedList{
         second.next = third; // Link second node with the third node
         
         llist.printList();
-        deleteDups(llist.head);
+        deleteDups2(llist.head);
         llist.printList();
 
     }
