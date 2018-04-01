@@ -184,6 +184,8 @@ class LinkedList{
     Time Complexity: O(1)
     Space Complexity: O(1)
     */
+    
+    
     public static Node addLists(Node l1, Node l2, int carry){
         
         if(l1 == null && l2 == null)
@@ -212,7 +214,47 @@ class LinkedList{
     public static Node addLists(Node l1, Node l2){
         return addLists(l1, l2, 0);
     }
-    
+    public static boolean hasCycle(Node head){
+        Node n1 = head;
+        Node n2 = head;
+        
+        //Find meeting point
+        while(n2.next!=null){
+            n1 = n1.next;
+            n2 = n2.next.next;
+            if(n1 == n2)
+                return true;
+        }
+        
+        return false;
+    }
+    public static Node FindBeginning(Node head){
+        Node n1 = head;
+        Node n2 = head;
+        
+        //Find meeting point
+        while(n2.next!=null){
+            n1 = n1.next;
+            n2 = n2.next.next;
+            if(n1 == n2)
+                break;
+        }
+        
+        //Error check - there is no meeting point, and therefore, no loop
+        if(n2.next == null)
+            return null;
+            
+        /* Move n1 to Head. Keep n2 at Meeting Point. Each are k steps
+        /* from the Loop Start. If they move at the same pace, they must
+        * meet at Loop Start. */
+         n1 = head;
+         while (n1 != n2) {
+         n1 = n1.next;
+         n2 = n2.next;
+         }
+        // Now n2 points to the start of the loop.
+        return n2;
+    }
     
     public static void main(String[] args){
         /* Start with the empty list. */
@@ -241,6 +283,7 @@ class LinkedList{
         llist.printList();
         */
         
+        /*
         LinkedList l1 = new LinkedList();
         l1.append(3);
         l1.append(1);
@@ -258,8 +301,22 @@ class LinkedList{
         LinkedList l3 = new LinkedList();
         l3.head = newHead;
         l3.printList();
+        */
+        LinkedList l = new LinkedList();
         
+        l.head  = new Node(1);
+        Node second = new Node(2);
+        Node third  = new Node(3);
+        Node fourth = new Node(4);
+        Node fifth = new Node(5);
+        l.head.next = second; // Link first node with the second node
+ 
+        second.next = third; // Link second node with the third node
+        third.next = fourth;
+        fourth.next = fifth;
         
-        
+        //fifth.next = third; //add cycle
+        System.out.println(hasCycle(l.head));
+        //System.out.println(FindBeginning(l.head).data);
     }
 }
