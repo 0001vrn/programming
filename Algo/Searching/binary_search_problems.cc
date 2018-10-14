@@ -14,6 +14,9 @@ The main idea for finding pivot is – for a sorted (in increasing order) and pi
 Solution 2:
 We can search an element in one pass of Binary Search.
 
+
+Q2 How to find the minimum element in a rotated array? e.g. 4 5 6 1 2 3
+
 */
 #include<iostream>
 using namespace std;
@@ -23,7 +26,7 @@ int binarySearch(int arr[], int low, int high, int key);
 int findPivot(int arr[], int low, int high);
 void secondInput();
 int search(int arr[], int l, int h, int key);
-
+void demoSearchMinInRotatedArray();
 
 int main(void){
     
@@ -33,14 +36,27 @@ int main(void){
     int key = 3;
     
     // Function calling
-    cout << "Index of the element is : " << 
-           pivotedBinarySearch(arr, n, key)<<'\n';
+    //cout << "Index of the element is : " << pivotedBinarySearch(arr, n, key)<<'\n';
      
-    secondInput();       
+    //secondInput();
+    
+    demoSearchMinInRotatedArray();
 
     return 0;
 }
 
+void demoSearchMinInRotatedArray(){
+    //int arr[] = {4,5,6,1,2,3};
+    int arr[] = {5, 6, 7, 8, 9, 10, 1, 2, 3};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int pivot = findPivot(arr,0,n-1);
+    cout<<"Min element in rotated array: ";
+    if(pivot==-1)
+        cout<<arr[0];
+    else
+        cout<<arr[pivot+1];
+    cout<<'\n';
+}
 void secondInput(){
     int arr[] = {4, 5, 6, 7, 8, 9, 1, 2, 3};
     int n = sizeof(arr)/sizeof(arr[0]);

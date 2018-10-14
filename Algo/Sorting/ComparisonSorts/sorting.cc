@@ -5,6 +5,16 @@ using namespace std;
 void bubbleSort(int a[],int n);
 void selectionSort(int a[],int n);
 void insertionSort(int a[],int n);
+/*
+Binary Insertion Sort
+We can use binary search to reduce the number of comparisons in normal insertion sort. 
+Binary Insertion Sort uses binary search to find the proper location to insert the selected item at each iteration. 
+In normal insertion sort, it takes O(n) comparisons(at nth iteration) in worst case. 
+We can reduce it to O(log n) by using binary search.
+*/
+
+int binarySearch(int a[], int key, int start, int end);
+void binaryInsertionSort(int a[], int n);
 
 void shellSort(int a[],int n);
 
@@ -37,11 +47,45 @@ int main(void){
     //quickSort(a,n);
     //mergeSort(a,n);
     // heapSort(a,n);
-    shellSort(a,n);
+    //shellSort(a,n);
+    binaryInsertionSort(a, n);
     println(a,n);
     
     
 }
+int binarySearch(int a[], int key, int low, int high){
+    if(high <= low) return (key>a[low])?(low+1):low;
+    
+    int mid = low + (high-low)/2;
+    
+    if(a[mid] == key)
+        return mid;
+    
+    if(a[mid] < key)
+        return binarySearch(a, key, mid+1, high);
+    return binarySearch(a, key, low, mid-1);
+}
+
+void binaryInsertionSort(int a[], int n){
+    int i, loc, j, k, selected;
+    for(int i=1;i<n;i++){
+        j = i-1;
+        selected = a[i];
+        // find location where selected sould be inseretd 
+        loc = binarySearch(a, selected, 0, j); 
+        
+        while(j >= loc){
+            a[j+1] = a[j];
+            j--;
+        }
+        a[j+1] = selected;
+    }
+}
+
+/*
+Time Complexity: O(n^2) in the worst case
+*/
+
 void shellSort(int arr[],int n){
     // Start with a big gap, then reduce the gap
     for (int gap = n/2; gap > 0; gap /= 2)

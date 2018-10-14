@@ -3,29 +3,31 @@
 #include <iostream>
 using namespace std;
 
+template <typename T> 
 class node {
     
   public:
-  int data;
+  T data;
   node *next;
   
   
-  node(int v,node *n=0){
+  node(T v,node *n=0){
       data=v;
       next=n;
   }
 };
 
+template <typename T> 
 class list
 {
     public:
-    node *head;
+    node<T> *head;
     list(){
         head=NULL;
     }
-    void insertAtEnd(int x);
-    void insertAtHead(int x);
-    void insertAtPos(int x,int pos);
+    void insertAtEnd(T x);
+    void insertAtHead(T x);
+    void insertAtPos(T x,int pos);
     
     void deleteAtEnd();
     void deleteAtHead();
@@ -38,37 +40,39 @@ class list
     
     //problems
     void sortList();
-    void sortedInsert(int el);
-    void sortedInsert2(node **, node *);
+    void sortedInsert(T el);
+    void sortedInsert2(node<T> **, node<T> *);
     void reverseIterative();
-    node* reverseKGroup(node *,int);
-    node* reverseRecursive(node *);
+    node<T>* reverseKGroup(node<T> *,int);
+    node<T>* reverseRecursive(node<T> *);
     
-    node* nthNodeFromEnd(int n);
+    node<T>* nthNodeFromEnd(int n);
     void loopIntroduce();
     void removeDuplicates();
-    node* new_node(int);
+    node<T>* new_node(T);
     int checkForLoop();
-    int getNthNode(node *,int);
-    int getMiddle(node*);
-    int getNthNodeFromEnd(node*,int);
+    int getNthNode(node<T> *,int);
+    int getMiddle(node<T> *);
+    int getNthNodeFromEnd(node<T> *,int);
     
     
     
 };
 
-void list::insertAtHead(int x){
-    node *tmp;
+template <typename T> 
+void list<T>::insertAtHead(T x){
+    node<T> *tmp;
     if(head==NULL)
-    head = new node(x);
+    head = new node<T>(x);
     else {
-        tmp = new node(x,head);
+        tmp = new node<T>(x,head);
         head=tmp;
     } 
 }
 
-void list::traverse(){
-    node *p=head;
+template <typename T> 
+void list<T>::traverse(){
+    node<T> *p=head;
     
     while(p){
         cout<<p->data<<"->";
@@ -77,26 +81,29 @@ void list::traverse(){
     cout<<"NULL"<<endl;
 }
 
-void list::insertAtEnd(int x){
-    node *tmp;
+template <typename T> 
+void list<T>::insertAtEnd(T x){
+    node<T> *tmp;
     if(head==NULL)
-    head=new node(x);
+    head=new node<T>(x);
     else if(head->next==NULL)
     {
-        tmp=new node(x);
+        tmp=new node<T>(x);
         head->next=tmp;
     }
     else {
-        node *p=head;
+        node<T> *p=head;
         while(p->next){
             p=p->next;
         }
-        tmp=new node(x);
+        tmp=new node<T>(x);
         p->next=tmp;
     }
 }
-int list::lengthOfList(){
-    node *p=head;
+
+template <typename T> 
+int list<T>::lengthOfList(){
+    node<T> *p=head;
     int len=0;
     while(p){
         p=p->next;
@@ -106,10 +113,11 @@ int list::lengthOfList(){
     return len;
 }
 
-void list::insertAtPos(int x,int pos){
-    node *tmp;
+template <typename T> 
+void list<T>::insertAtPos(T x,int pos){
+    node<T> *tmp;
     int k=1;
-    tmp = new node(x);
+    tmp = new node<T>(x);
     if(pos==1)
     {
         tmp->next=head;
@@ -117,8 +125,8 @@ void list::insertAtPos(int x,int pos){
     }
     else
     {
-        node *p=head;
-        node *q;
+        node<T> *p=head;
+        node<T> *q;
         while(p && k<pos){
             q=p;
             p=p->next;
@@ -129,12 +137,14 @@ void list::insertAtPos(int x,int pos){
     }
     
 }
-void list::deleteAtHead(){
+
+template <typename T> 
+void list<T>::deleteAtHead(){
     if(head==NULL)
     cout<<"List is empty\n";
     else 
     {
-        node *tmp=head;
+        node<T> *tmp=head;
         head=head->next;
         delete tmp;
     }
@@ -142,7 +152,8 @@ void list::deleteAtHead(){
     
 }
 
-void list::deleteAtEnd(){
+template <typename T> 
+void list<T>::deleteAtEnd(){
     if(head==NULL)
     cout<<"List is empty\n";
     else if(head->next==NULL)
@@ -152,8 +163,8 @@ void list::deleteAtEnd(){
     }
     else
     {
-        node *p=head;
-        node *q;
+        node<T> *p=head;
+        node<T> *q;
         while(p->next){
             q=p;
             p=p->next;
@@ -164,9 +175,10 @@ void list::deleteAtEnd(){
     }
 }
 
-void list::deleteAtPos(int pos){
+template <typename T> 
+void list<T>::deleteAtPos(int pos){
     int k=1;
-    node *tmp;
+    node<T> *tmp;
     if(pos==1){
         tmp=head;
         head=head->next;
@@ -174,8 +186,8 @@ void list::deleteAtPos(int pos){
     }
     else 
     {
-        node *p=head;
-        node *q;
+        node<T> *p=head;
+        node<T> *q;
         while(p && k<pos){
             q=p;
             p=p->next;
@@ -194,9 +206,11 @@ void list::deleteAtPos(int pos){
         
     }
 }
-void list::deleteList(){
-    node *itr=head;
-    node *aux;
+
+template <typename T> 
+void list<T>::deleteList(){
+    node<T> *itr=head;
+    node<T> *aux;
     while(itr){
         aux=itr->next;
         delete itr;
@@ -208,12 +222,13 @@ void list::deleteList(){
 
 
 //problems
-void list::reverseIterative()
+template <typename T> 
+void list<T>::reverseIterative()
 {
     
-    node *p=head;
-    node *q;
-    node *r=0;
+    node<T> *p=head;
+    node<T> *q;
+    node<T> *r=0;
     while(p){
         q=p;
         p=p->next;
@@ -224,21 +239,24 @@ void list::reverseIterative()
     head=r;
 }
 
-node* list::reverseRecursive(node *head){
+template <typename T>
+node<T>* list<T>::reverseRecursive(node<T> *head){
     if(head==0 || head->next==0)
     return head;
     
-    node *second=head->next;
+    node<T> *second=head->next;
     head->next=0;
-    node *rest=reverseRecursive(second);
+    node<T> *rest=reverseRecursive(second);
     second->next=head;
     return rest;
     
 }
 
-node* list::nthNodeFromEnd(int n){
-    node *pnthNode=0;
-    node *ptemp=head;
+
+template <typename T> 
+node<T>* list<T>::nthNodeFromEnd(int n){
+    node<T> *pnthNode=0;
+    node<T> *ptemp=head;
     for(int i=1;i<n;i++)
         if(ptemp)
             ptemp=ptemp->next;
@@ -255,16 +273,18 @@ node* list::nthNodeFromEnd(int n){
 }
 
 
-void list::loopIntroduce(){
-    node *p=head;
+template <typename T> 
+void list<T>::loopIntroduce(){
+    node<T> *p=head;
     while(p->next)
         p=p->next;
     p->next=head;
 }
 
-int list::checkForLoop(){
-    node *slow=head;
-    node *fast=head;
+template <typename T> 
+int list<T>::checkForLoop(){
+    node<T> *slow=head;
+    node<T> *fast=head;
     
     while(slow && fast && fast->next){
         
@@ -277,18 +297,19 @@ int list::checkForLoop(){
     return 0;
 }
 
-void list::sortedInsert(int el){
-    node *tmp;
+template <typename T> 
+void list<T>::sortedInsert(T el){
+    node<T> *tmp;
     if(head==NULL)
-        head=new node(el);
+        head=new node<T>(el);
     else if(el <= head->data)
         {
-            tmp=new node(el,head);
+            tmp=new node<T>(el,head);
             head=tmp;
         }
     else{
-        node *p=head;
-        tmp=new node(el);
+        node<T> *p=head;
+        tmp=new node<T>(el);
         while(p->next && el > p->next->data)
         {
             p=p->next;
@@ -299,24 +320,29 @@ void list::sortedInsert(int el){
     }    
 }
 /* Memory efficient solution */
-void list::sortedInsert2(node **head_ref, node *new_node){
+template <typename T> 
+void list<T>::sortedInsert2(node<T> **head_ref, node<T> *new_node){
     
     if (head_ref == NULL || new_node == NULL) return ;
-    node **cursor = head_ref;
+    node<T> **cursor = head_ref;
     while (*cursor && (*cursor)->data < new_node->data)
         cursor = &((*cursor)->next);
     new_node->next = *cursor;
     *cursor = new_node;
 }
 
-node* list::new_node(int n)
+
+template <typename T> 
+node<T>* list<T>::new_node(T n)
 {
-    node *tmp = new node(n);
+    node<T> *tmp = new node<T>(n);
     if (tmp == NULL) return NULL;
     return tmp;
 }
-int list::getNthNode(node *head,int n){
-    node *itr=head;
+
+template <typename T> 
+int list<T>::getNthNode(node<T> *head,int n){
+    node<T> *itr=head;
     
     int count=0;
     
@@ -332,9 +358,10 @@ int list::getNthNode(node *head,int n){
     
 }
 
-int list::getMiddle(node *head){
-    node *slow=head;
-    node *fast=head;
+template <typename T> 
+int list<T>::getMiddle(node<T> *head){
+    node<T> *slow=head;
+    node<T> *fast=head;
     
     while(fast && fast->next){
         slow=slow->next;
@@ -344,9 +371,10 @@ int list::getMiddle(node *head){
     return slow->data;    
 }
 
-int list::getNthNodeFromEnd(node *head,int n){
-    node *ref=head;
-    node *main=head;
+template <typename T> 
+int list<T>::getNthNodeFromEnd(node<T> *head,int n){
+    node<T> *ref=head;
+    node<T> *main=head;
     int count=0;
     if(head){
         while(count<n)
@@ -365,10 +393,12 @@ int list::getNthNodeFromEnd(node *head,int n){
     
     return main->data;
 }
-void list::removeDuplicates(){
-    node *current=head;
+
+template <typename T> 
+void list<T>::removeDuplicates(){
+    node<T> *current=head;
     
-    node *next_next;
+    node<T> *next_next;
     
     if(current==NULL)
     return;
@@ -386,13 +416,14 @@ void list::removeDuplicates(){
     }
 }
 
-node* list::reverseKGroup(node *head,int k){
+template <typename T> 
+node<T>* list<T>::reverseKGroup(node<T> *head,int k){
     int i=0;
-    node *p=head;
+    node<T> *p=head;
     while(p && i<k)
         p=p->next,i++;
     if(i<k)return head;
-    node *t=head->next;
+    node<T> *t=head->next;
     head->next=reverseKGroup(p,k);
     while(--i)
         p=t->next, t->next=head, head=t, t=p;
@@ -404,11 +435,12 @@ node* list::reverseKGroup(node *head,int k){
 /*
 Given a linked list of 0s, 1s and 2s, sort it.
 */
-void list::sortList()
+template <typename T> 
+void list<T>::sortList()
 {
     int count[3]={0};
     
-    node *ptr=head;
+    node<T> *ptr=head;
     
     while(ptr){
         count[ptr->data]++;
@@ -510,7 +542,8 @@ int main() {
    
    */
    
-   list l1;
+   /*
+   list<int> l1;
    for(int i=0;i<10;i++)
    l1.insertAtEnd(i%3);
    l1.traverse();
@@ -522,5 +555,10 @@ int main() {
    l1.traverse();
    l1.sortList();
    l1.traverse();
-   
+   */
+   int arr[] = {3,2,1,0,5,4,6,9,8,7};
+   list<int> l1;
+   for(int i=0;i<10;i++)
+        l1.sortedInsert(arr[i]);
+   l1.traverse();
 }
